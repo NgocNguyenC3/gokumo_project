@@ -1,0 +1,51 @@
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+ol,
+ul {
+  padding-left: 30px;
+}
+
+.size-field {
+  margin: 0 0 10px 0;
+}
+
+.box {
+  background: #fff;
+  border: 1px solid #999;
+  font-size: 15px;
+  line-height: 30px;
+  height: 40px;
+  padding: 0;
+  text-align: center;
+  width: 40px;
+  float: left;
+}
+
+.main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.box:focus {
+  outline: none;
+}
+
+.kbd-navigation .box:focus {
+  background: #ddd;
+}
+
+.flex-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.bold {
+  color: red;
+}
+
+.hoa {
+  color: red;
+}
