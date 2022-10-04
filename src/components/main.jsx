@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { Table } from "./table.jsx";
+import { History } from "./history.jsx";
 export const Main = (props) => {
 
     const [state, setState] = useState({
@@ -12,9 +13,6 @@ export const Main = (props) => {
         xNext: true,
     });
 
-
-
-    const [sortASC, setSortASC] = useState(true);
     const [isHoa, setHoa] = useState(false);
     const [winner, line] = findWinner(
         state.history[state.stepNumber].squares,
@@ -47,14 +45,7 @@ export const Main = (props) => {
         }
 
     };
-    const jumpToStep = (step) => {
-        setHoa(false)
-        setState({
-            ...state,
-            stepNumber: step,
-            xNext: step % 2 === 0,
-        });
-    };
+
     function findWinner(squares, size) {
 
         for (let i = 0; i < size; i++) {
@@ -90,34 +81,21 @@ export const Main = (props) => {
                     : "Next player: " + (state.xNext ? "X" : "O")}
             </div>
 
-            <div>
-                Sort
-                <button onClick={() => setSortASC(!sortASC)}>
-                    {sortASC ? "ASC" : "DSC"}
-                </button>
+            <div className="info">
+                <History
+                    jumpToStep={(step) => {
+                        setHoa(false)
+                        setState({
+                            ...state,
+                            stepNumber: step,
+                            xNext: step % 2 === 0,
+                        });
+                    }}
+                    history={state.history}
+                    state = {state}
+                    size = {props.size}
+                />
             </div>
-            <ol className={`${sortASC ? "" : "flex-reverse"}`}>
-                {state.history.map((step, move) => {
-                    const desc = move
-                        ? "Go to move #" +
-                        move +
-                        " " +
-                        (step.isX ? "X" : "O") +
-                        `(${step.location % props.size},${Math.floor(
-                            step.location / props.size
-                        )})`
-                        : "Go to game start";
-                    return (
-                        <li
-                            key={move}
-                            className={`history-button ${move === state.stepNumber ? "history-selected" : " "
-                                }`}
-                        >
-                            <button onClick={() => jumpToStep(move)}>{desc}</button>
-                        </li>
-                    );
-                })}
-            </ol>
         </div>
     </div>);
 
@@ -201,36 +179,8 @@ function checkWin(squares, i, j, data, size) {
             result = [];
         }
     }
-
-
     return null;
 }
-
-const Table = (props) => {
-    const renderBox = (i) => {
-        return (
-            <button
-                className={`box ${props.boldLine && props.boldLine.includes(i) ? "bold" : ""}`}
-                onClick={() => props.onClick(i)}>
-                {props.squares[i]}
-            </button>
-        );
-    };
-
-    return Array(props.size)
-        .fill(null)
-        .map((_, i) => {
-            return (
-                <div key={i} className="box-row">
-                    {Array(props.size)
-                        .fill(null)
-                        .map((_, j) => {
-                            return renderBox(i * props.size + j);
-                        })}
-                </div>
-            );
-        });
-};
 
 
 export default Main
